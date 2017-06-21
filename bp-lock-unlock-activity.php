@@ -45,7 +45,7 @@ class BP_Lock_Unlock_Activity_Helper {
 		// filter activity comment reply capability.
 		add_filter( 'bp_activity_can_comment_reply', array( $this, 'check_comment_reply_status' ), 10, 2 );
 
-		add_action( 'bp_loaded', array( $this, 'load_textdomain' ), 2 );
+		add_action( 'bp_init', array( $this, 'load_translation' ), 2 );
 	}
 
 
@@ -67,22 +67,8 @@ class BP_Lock_Unlock_Activity_Helper {
 	/**
 	 * Load the translation file
 	 */
-	public function load_textdomain() {
-		$locale = apply_filters( 'bp-lua_get_locale', get_locale() );
-
-
-		// if load .mo file.
-		if ( ! empty( $locale ) ) {
-			$mofile_default = sprintf( '%slanguages/%s.mo', plugin_dir_path( __FILE__ ), $locale );
-
-			$mofile = apply_filters( 'bp-lua_load_textdomain_mofile', $mofile_default );
-
-			if ( is_readable( $mofile ) ) {
-				// make sure file exists, and load it.
-				load_textdomain( 'bplua', $mofile );
-			}
-		}
-
+	public function load_translation() {
+		load_plugin_textdomain( 'bp-lock-unlock-activity', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	/**
@@ -126,18 +112,18 @@ class BP_Lock_Unlock_Activity_Helper {
 				if ( $action === 'close' ) {
 
 					self::close( $activity_id );
-					$message = __( 'Activity Locked for commenting.', 'bplua' );
+					$message = __( 'Activity Locked for commenting.', 'bp-lock-unlock-activity' );
 
 				} elseif ( $action === 'open' ) {
 
 					// Are we opening again the activity for commenting.
 					self::open( $activity_id );
-					$message = __( 'Activity Unlocked for commenting', 'bplua' );
+					$message = __( 'Activity Unlocked for commenting', 'bp-lock-unlock-activity' );
 				}
 
 			} else {
 				// let user know that he is a crook may be.
-				$message = __( "You Don't have permission to do this", 'bplua' );
+				$message = __( "You Don't have permission to do this", 'bp-lock-unlock-activity' );
 			}
 
 
@@ -254,14 +240,14 @@ class BP_Lock_Unlock_Activity_Helper {
 
 			$label = __( 'Open', 'bpla' );
 
-			$link_title_attr = __( 'Reopen Activity for commenting', 'bplua' );
+			$link_title_attr = __( 'Reopen Activity for commenting', 'bp-lock-unlock-activity' );
 
 			$url = $url . 'open/' . $activity->id;
 		} else {
 
 			$label = __( 'Close', 'bpla' );
 
-			$link_title_attr = __( 'Lock Activity, do not allow commenting', 'bplua' );
+			$link_title_attr = __( 'Lock Activity, do not allow commenting', 'bp-lock-unlock-activity' );
 
 			$url = $url . 'close/' . $activity->id;
 		}

@@ -19,6 +19,7 @@ function bplua_close_activity( $activity_id ) {
 }
 
 
+
 /**
  * Open activity
  *
