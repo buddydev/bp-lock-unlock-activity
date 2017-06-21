@@ -32,7 +32,7 @@ class BP_Lock_Unlock_Activity_Helper {
 	private function __construct() {
 
 		// load the functions.php which can be used by others.
-		add_action( 'bp_loaded', array( $this, 'load_files' ) );
+		add_action( 'bp_loaded', array( $this, 'load' ) );
 		// show open close button on activty entries.
 		add_action( 'bp_activity_entry_meta', array( $this, 'show_btn' ) );
 
@@ -74,13 +74,13 @@ class BP_Lock_Unlock_Activity_Helper {
 	/**
 	 * Load core
 	 */
-	public function load_files() {
+	public function load() {
 		$files         = array(
 			'bp-lock-unlock-activity-functions.php',
 		);
-		$self_dir_path = plugin_dir_path( __FILE__ );
+		$path = plugin_dir_path( __FILE__ );
 		foreach ( $files as $file ) {
-			require_once $self_dir_path . $file;
+			require_once $path . $file;
 		}
 
 	}
