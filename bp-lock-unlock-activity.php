@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: BuddyPress Lock Unlock Activity
- * Version: 1.0.0
+ * Version: 1.0.1
  * Plugin URI: https://buddydev.com/plugins/bp-lock-unlock-activity/
  * Author: Anu Sharma, Brajesh Singh
  * Author URI: https://buddydev.com
