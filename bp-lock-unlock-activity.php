@@ -33,7 +33,7 @@ class BP_Lock_Unlock_Activity_Helper {
 
 		// load the functions.php which can be used by others.
 		add_action( 'bp_loaded', array( $this, 'load' ) );
-		// show open close button on activty entries.
+		// show open close button on activity entries.
 		add_action( 'bp_activity_entry_meta', array( $this, 'show_btn' ) );
 
 		// handle the open/close action.
@@ -96,7 +96,7 @@ class BP_Lock_Unlock_Activity_Helper {
 			if ( ! is_user_logged_in() ) {
 				return;
 			}
-
+			$message = '';
 			$action      = bp_current_action();
 			$activity_id = bp_action_variable( 0 );
 
@@ -109,18 +109,17 @@ class BP_Lock_Unlock_Activity_Helper {
 			if ( self::user_can_update_activity( $activity_id ) ) {
 
 				// Are we closing the activity for comment.
-				if ( $action === 'close' ) {
+				if ( 'close' === $action ) {
 
 					self::close( $activity_id );
 					$message = __( 'Activity Locked for commenting.', 'bp-lock-unlock-activity' );
 
-				} elseif ( $action === 'open' ) {
+				} elseif ( 'open' === $action ) {
 
 					// Are we opening again the activity for commenting.
 					self::open( $activity_id );
 					$message = __( 'Activity Unlocked for commenting', 'bp-lock-unlock-activity' );
 				}
-
 			} else {
 				// let user know that he is a crook may be.
 				$message = __( "You Don't have permission to do this", 'bp-lock-unlock-activity' );
