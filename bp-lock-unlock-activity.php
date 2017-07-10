@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: BuddyPress Lock Unlock Activity
- * Version: 1.0.1
+ * Version: 1.0.2
  * Plugin URI: https://buddydev.com/plugins/bp-lock-unlock-activity/
  * Author: Anu Sharma, Brajesh Singh
  * Author URI: https://buddydev.com
@@ -37,7 +37,7 @@ class BP_Lock_Unlock_Activity_Helper {
 		add_action( 'bp_activity_entry_meta', array( $this, 'show_btn' ) );
 
 		// handle the open/close action.
-		add_action( 'bp_actions', array( $this, 'handle_open_close' ) );
+		add_action( 'bp_actions', array( $this, 'handle_open_close' ), 1000 );
 
 		// filter the activity commenting capability.
 		add_filter( 'bp_activity_can_comment', array( $this, 'check_comment_status' ) );
