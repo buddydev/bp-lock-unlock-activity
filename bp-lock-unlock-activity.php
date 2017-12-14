@@ -46,6 +46,9 @@ class BP_Lock_Unlock_Activity_Helper {
 		add_filter( 'bp_activity_can_comment_reply', array( $this, 'check_comment_reply_status' ), 10, 2 );
 
 		add_action( 'bp_init', array( $this, 'load_translation' ), 2 );
+		add_action( 'wp_ajax_bpal_lock_unlock_activity', array( $this, 'ajax_lock_unlock_activity' ) );
+
+		add_action( 'bp_enqueue_scripts', array( $this, 'load_assets' ) );
 	}
 
 
@@ -56,7 +59,7 @@ class BP_Lock_Unlock_Activity_Helper {
 	 */
 	public static function get_instance() {
 
-		if ( ! isset ( self::$instance ) ) {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
 
@@ -118,11 +121,11 @@ class BP_Lock_Unlock_Activity_Helper {
 
 					// Are we opening again the activity for commenting.
 					self::open( $activity_id );
-					$message = __( 'Activity Unlocked for commenting', 'bp-lock-unlock-activity' );
+					$message = __( 'Activity Unlocked for commenting.', 'bp-lock-unlock-activity' );
 				}
 			} else {
 				// let user know that he is a crook may be.
-				$message = __( "You Don't have permission to do this", 'bp-lock-unlock-activity' );
+				$message = __( "You Don't have permission to do this.", 'bp-lock-unlock-activity' );
 			}
 
 
@@ -134,8 +137,62 @@ class BP_Lock_Unlock_Activity_Helper {
 			bp_core_redirect( wp_get_referer() );
 
 		}
+	}
 
+	/**
+	 * Ajax processing of the open/close request.
+	 */
+	public function ajax_lock_unlock_activity() {
 
+		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'bp_activity_open_close_link' ) ) {
+			wp_send_json_error( __( 'Invalid action!', 'bp-lock-unlock-activity' ) );
+		}
+
+		$activity_id = isset( $_POST['activity_id'] ) ? absint( $_POST['activity_id'] ) : 0;
+		if ( ! $activity_id ) {
+			return;// someone is playing.
+		}
+
+		$activity = new BP_Activity_Activity( $activity_id );
+
+		if ( ! $activity->id ) {
+			return; // seriously, you plan to fool the system, we don't allow that?
+		}
+
+		// if we are here, check if the user can update status?
+		if ( ! self::user_can_update_activity( $activity_id ) ) {
+			wp_send_json_error( __( 'You are not allowed to lock/unlock activity.', 'bp-lock-unlock-activity' ) );
+		}
+
+		// if we are here, the request is genuine, let's try to fulfill it.
+		if ( self::is_open( $activity_id ) ) {
+			self::close( $activity_id );
+		} else {
+			self::open( $activity_id );
+		}
+
+		ob_start();
+		// load activity.
+		if ( bp_has_activities( array( 'include' => $activity_id ) ) ) {
+			while ( bp_activities() ) {
+				bp_the_activity();
+				bp_get_template_part( 'activity/entry' );
+			}
+		}
+
+		$content = ob_get_clean();
+		wp_send_json_success( $content );
+	}
+
+	/**
+	 * Load assets.
+	 */
+	public function load_assets() {
+		if ( ! is_user_logged_in() ) {
+			return; // only logged in user can toggle state.
+		}
+		wp_register_script( 'bp-lock-unlock-activity', plugin_dir_url( __FILE__ ) . 'assets/bp-lock-unlock-activity.js', array( 'jquery' ) );
+		wp_enqueue_script( 'bp-lock-unlock-activity' );
 	}
 
 	/**
@@ -255,7 +312,9 @@ class BP_Lock_Unlock_Activity_Helper {
 
 		// . '/delete/' . $activities_template->activity->id;
 		$class = 'open-close-activity';
-		$link  = '<a href="' . wp_nonce_url( $url, 'bp_activity_open_close_link' ) . '" class="button item-button bp-secondary-action ' . $class . '" rel="nofollow" title="' . $link_title_attr . '">' . $label . '</a>';
+		$url = wp_nonce_url( $url, 'bp_activity_open_close_link' );
+
+		$link = "<a data-activity-id='{$activity->id}' href='{$url}' class='button item-button bp-secondary-action {$class}' rel='nofollow' title='{$link_title_attr}'>{$label}</a>";
 
 		return $link;
 	}
