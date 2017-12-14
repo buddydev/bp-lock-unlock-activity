@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BP Lock Unlock Activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-21 21:35+0530\n"
-"PO-Revision-Date: 2017-06-21 21:35+0530\n"
+"POT-Creation-Date: 2017-12-14 17:43+0530\n"
+"PO-Revision-Date: 2017-12-14 17:43+0530\n"
 "Last-Translator: Brajesh Singh <brajesh@cosmiccoders.com>\n"
 "Language-Team: BuddyDev <support@buddydev.com>\n"
 "Language: en_US\n"
@@ -15,30 +15,38 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: bp-lock-unlock-activity.php:115
+#: bp-lock-unlock-activity.php:119
 msgid "Activity Locked for commenting."
 msgstr ""
 
-#: bp-lock-unlock-activity.php:121
-msgid "Activity Unlocked for commenting"
+#: bp-lock-unlock-activity.php:125
+msgid "Activity Unlocked for commenting."
 msgstr ""
 
-#: bp-lock-unlock-activity.php:126
-msgid "You Don't have permission to do this"
+#: bp-lock-unlock-activity.php:129
+msgid "You Don't have permission to do this."
 msgstr ""
 
-#: bp-lock-unlock-activity.php:241
+#: bp-lock-unlock-activity.php:149
+msgid "Invalid action!"
+msgstr ""
+
+#: bp-lock-unlock-activity.php:165
+msgid "You are not allowed to lock/unlock activity."
+msgstr ""
+
+#: bp-lock-unlock-activity.php:298
 msgid "Open"
 msgstr ""
 
-#: bp-lock-unlock-activity.php:243
+#: bp-lock-unlock-activity.php:300
 msgid "Reopen Activity for commenting"
 msgstr ""
 
-#: bp-lock-unlock-activity.php:248
+#: bp-lock-unlock-activity.php:305
 msgid "Close"
 msgstr ""
 
-#: bp-lock-unlock-activity.php:250
+#: bp-lock-unlock-activity.php:307
 msgid "Lock Activity, do not allow commenting"
 msgstr ""
