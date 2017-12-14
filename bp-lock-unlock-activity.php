@@ -1,12 +1,13 @@
 <?php
 /**
  * Plugin Name: BuddyPress Lock Unlock Activity
- * Version: 1.0.2
+ * Version: 1.0.3
  * Plugin URI: https://buddydev.com/plugins/bp-lock-unlock-activity/
- * Author: Anu Sharma, Brajesh Singh
+ * Author: BuddyDev
  * Author URI: https://buddydev.com
- *
  * Description: Allow Users to lock unlock activity for commenting.
+ *
+ * Original Contributor: Anu Sharma, Brajesh Singh.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
