@@ -3,7 +3,7 @@ Contributors: buddydev,sanupma,sbrajesh
 Tags: buddypress,activity,buddypress-activity
 Requires at least: 4.5
 Tested up to: 4.9.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -46,6 +46,9 @@ Google has better answers than us. Still, you welcome welcome in [BuddyDev forum
 I don't drink.
 
 == Changelog ==
+
+= 1.0.4 =
+* Separate class for open and close activity button
 
 = 1.0.3 =
 * Initial release on wp.org
