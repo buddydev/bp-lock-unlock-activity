@@ -300,6 +300,8 @@ class BP_Lock_Unlock_Activity_Helper {
 			$link_title_attr = __( 'Reopen Activity for commenting', 'bp-lock-unlock-activity' );
 
 			$url = $url . 'open/' . $activity->id;
+
+			$class = 'bplua-open-activity';
 		} else {
 
 			$label = __( 'Close', 'bpla' );
@@ -307,12 +309,14 @@ class BP_Lock_Unlock_Activity_Helper {
 			$link_title_attr = __( 'Lock Activity, do not allow commenting', 'bp-lock-unlock-activity' );
 
 			$url = $url . 'close/' . $activity->id;
+			$class = 'bplua-close-activity';
 		}
+
+		$class .= ' open-close-activity';
 
 		$url .= '/';
 
 		// . '/delete/' . $activities_template->activity->id;
-		$class = 'open-close-activity';
 		$url = wp_nonce_url( $url, 'bp_activity_open_close_link' );
 
 		$link = "<a data-activity-id='{$activity->id}' href='{$url}' class='button item-button bp-secondary-action {$class}' rel='nofollow' title='{$link_title_attr}'>{$label}</a>";
