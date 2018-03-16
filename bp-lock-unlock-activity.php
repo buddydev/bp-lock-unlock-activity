@@ -293,6 +293,8 @@ class BP_Lock_Unlock_Activity_Helper {
 
 		$url = bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/';
 
+		$class = 'open-close-activity';
+
 		if ( self::is_closed( $activity->id ) ) {
 
 			$label = __( 'Open', 'bpla' );
@@ -301,7 +303,7 @@ class BP_Lock_Unlock_Activity_Helper {
 
 			$url = $url . 'open/' . $activity->id;
 
-			$class = 'bplua-open-activity';
+			$class .= ' bplua-open-activity';
 		} else {
 
 			$label = __( 'Close', 'bpla' );
@@ -309,10 +311,9 @@ class BP_Lock_Unlock_Activity_Helper {
 			$link_title_attr = __( 'Lock Activity, do not allow commenting', 'bp-lock-unlock-activity' );
 
 			$url = $url . 'close/' . $activity->id;
-			$class = 'bplua-close-activity';
-		}
 
-		$class .= ' open-close-activity';
+			$class .= ' bplua-close-activity';
+		}
 
 		$url .= '/';
 
