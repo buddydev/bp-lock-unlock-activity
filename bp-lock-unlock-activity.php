@@ -79,10 +79,12 @@ class BP_Lock_Unlock_Activity_Helper {
 	 * Load core
 	 */
 	public function load() {
-		$files         = array(
+		$files = array(
 			'bp-lock-unlock-activity-functions.php',
 		);
+
 		$path = plugin_dir_path( __FILE__ );
+
 		foreach ( $files as $file ) {
 			require_once $path . $file;
 		}
@@ -100,7 +102,8 @@ class BP_Lock_Unlock_Activity_Helper {
 			if ( ! is_user_logged_in() ) {
 				return;
 			}
-			$message = '';
+
+			$message     = '';
 			$action      = bp_current_action();
 			$activity_id = bp_action_variable( 0 );
 
@@ -330,7 +333,7 @@ class BP_Lock_Unlock_Activity_Helper {
 	 *
 	 * @param int $activity_id numeric activity id.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function is_closed( $activity_id ) {
 		return (boolean) bp_activity_get_meta( $activity_id, 'is_closed' );
@@ -341,7 +344,7 @@ class BP_Lock_Unlock_Activity_Helper {
 	 *
 	 * @param int $activity_id numeric activity id.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function is_open( $activity_id ) {
 		return ! self::is_closed( $activity_id );
@@ -351,19 +354,23 @@ class BP_Lock_Unlock_Activity_Helper {
 	 * Close the activity
 	 *
 	 * @param int $activity_id numeric activity id.
+	 *
+	 * @return bool
 	 */
 	public static function close( $activity_id ) {
-		bp_activity_update_meta( $activity_id, 'is_closed', 1 );
+		return bp_activity_update_meta( $activity_id, 'is_closed', 1 );
 	}
 
 	/**
 	 * Open activity for commenting
 	 *
 	 * @param int $activity_id numeric activity id.
+	 *
+	 * @return bool
 	 */
 	public static function open( $activity_id ) {
 
-		bp_activity_delete_meta( $activity_id, 'is_closed', 1 );
+		return bp_activity_delete_meta( $activity_id, 'is_closed', 1 );
 
 	}
 }

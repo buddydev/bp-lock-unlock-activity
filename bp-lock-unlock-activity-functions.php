@@ -3,14 +3,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 0 );
 }
-/**
- * Check is activity close get link
- */
 
 /**
  * Close the activity
  *
  * @param int $activity_id numeric activity id.
+ *
+ * @return bool
  */
 function bplua_close_activity( $activity_id ) {
 	$instance = bp_activity_lock_get_helper();
@@ -18,12 +17,12 @@ function bplua_close_activity( $activity_id ) {
 	return $instance->close( $activity_id );
 }
 
-
-
 /**
  * Open activity
  *
  * @param int $activity_id numeric activity id.
+ *
+ * @return bool
  */
 function bplua_open_activity( $activity_id ) {
 
@@ -37,7 +36,7 @@ function bplua_open_activity( $activity_id ) {
  *
  * @param int $activity_id numeric activity id.
  *
- * @return boolean
+ * @return bool
  */
 function bplua_is_activity_closed( $activity_id ) {
 	$instance = bp_activity_lock_get_helper();
