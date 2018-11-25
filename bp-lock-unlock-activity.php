@@ -297,7 +297,7 @@ class BP_Lock_Unlock_Activity_Helper {
 
 		if ( self::is_closed( $activity->id ) ) {
 
-			$label = __( 'Open', 'bpla' );
+			$label = __( 'Open', 'bp-lock-unlock-activity' );
 
 			$link_title_attr = __( 'Reopen Activity for commenting', 'bp-lock-unlock-activity' );
 
@@ -306,7 +306,7 @@ class BP_Lock_Unlock_Activity_Helper {
 			$class .= ' bplua-open-activity';
 		} else {
 
-			$label = __( 'Close', 'bpla' );
+			$label = __( 'Close', 'bp-lock-unlock-activity' );
 
 			$link_title_attr = __( 'Lock Activity, do not allow commenting', 'bp-lock-unlock-activity' );
 
