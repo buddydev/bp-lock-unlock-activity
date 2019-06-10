@@ -10,6 +10,7 @@
  * Original Contributor: Anu Sharma, Brajesh Singh.
  */
 
+// No direct access.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -20,18 +21,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 class BP_Lock_Unlock_Activity_Helper {
 
 	/**
-	 * Singleton instance
+	 * Class instance
 	 *
 	 * @var BP_Lock_Unlock_Activity_Helper
 	 */
 	private static $instance;
 
-
 	/**
 	 * Constructor
 	 */
 	private function __construct() {
-
 		// load the functions.php which can be used by others.
 		add_action( 'bp_loaded', array( $this, 'load' ) );
 		// show open close button on activity entries.
@@ -52,7 +51,6 @@ class BP_Lock_Unlock_Activity_Helper {
 		add_action( 'bp_enqueue_scripts', array( $this, 'load_assets' ) );
 	}
 
-
 	/**
 	 * Get the singleton instance
 	 *
@@ -65,7 +63,6 @@ class BP_Lock_Unlock_Activity_Helper {
 		}
 
 		return self::$instance;
-
 	}
 
 	/**
@@ -88,11 +85,10 @@ class BP_Lock_Unlock_Activity_Helper {
 		foreach ( $files as $file ) {
 			require_once $path . $file;
 		}
-
 	}
 
 	/**
-	 * Handles the oening/closing of activity
+	 * Handles the opening/closing of activity
 	 * Based on the current action, it either closes activity for comment or opens it
 	 */
 	public function handle_open_close() {
@@ -109,20 +105,16 @@ class BP_Lock_Unlock_Activity_Helper {
 
 			if ( ! $action || ! $activity_id ) {
 				return;
-			}//
+			}
 
 			// if we are here, we know the action and the activity id.
 			// make sure only super admins or the owner of activity can close it.
 			if ( self::user_can_update_activity( $activity_id ) ) {
-
 				// Are we closing the activity for comment.
 				if ( 'close' === $action ) {
-
 					self::close( $activity_id );
 					$message = __( 'Activity Locked for commenting.', 'bp-lock-unlock-activity' );
-
 				} elseif ( 'open' === $action ) {
-
 					// Are we opening again the activity for commenting.
 					self::open( $activity_id );
 					$message = __( 'Activity Unlocked for commenting.', 'bp-lock-unlock-activity' );
@@ -132,14 +124,12 @@ class BP_Lock_Unlock_Activity_Helper {
 				$message = __( "You Don't have permission to do this.", 'bp-lock-unlock-activity' );
 			}
 
-
 			if ( $message ) {
 				bp_core_add_message( $message );
 			}
 
 			// redirect back to the last page.
 			bp_core_redirect( wp_get_referer() );
-
 		}
 	}
 
@@ -153,6 +143,7 @@ class BP_Lock_Unlock_Activity_Helper {
 		}
 
 		$activity_id = isset( $_POST['activity_id'] ) ? absint( $_POST['activity_id'] ) : 0;
+
 		if ( ! $activity_id ) {
 			return;// someone is playing.
 		}
@@ -219,7 +210,6 @@ class BP_Lock_Unlock_Activity_Helper {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -259,7 +249,6 @@ class BP_Lock_Unlock_Activity_Helper {
 	 * @return boolean
 	 */
 	public function check_comment_reply_status( $can_comment, $comment ) {
-
 		global $activities_template;
 
 		$activity = $activities_template->activity;
@@ -280,7 +269,6 @@ class BP_Lock_Unlock_Activity_Helper {
 		if ( self::user_can_update_activity( $activities_template->activity->id ) ) {
 			echo $this->get_close_open_link();
 		}
-
 	}
 
 	/**
@@ -292,6 +280,7 @@ class BP_Lock_Unlock_Activity_Helper {
 	 */
 	public function get_close_open_link() {
 		global $activities_template;
+
 		$activity = $activities_template->activity;
 
 		$url = bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/';
@@ -299,23 +288,15 @@ class BP_Lock_Unlock_Activity_Helper {
 		$class = 'open-close-activity';
 
 		if ( self::is_closed( $activity->id ) ) {
-
-			$label = __( 'Open', 'bp-lock-unlock-activity' );
-
+			$label           = __( 'Open', 'bp-lock-unlock-activity' );
 			$link_title_attr = __( 'Reopen Activity for commenting', 'bp-lock-unlock-activity' );
-
-			$url = $url . 'open/' . $activity->id;
-
-			$class .= ' bplua-open-activity';
+			$url             = $url . 'open/' . $activity->id;
+			$class           .= ' bplua-open-activity';
 		} else {
-
-			$label = __( 'Close', 'bp-lock-unlock-activity' );
-
+			$label           = __( 'Close', 'bp-lock-unlock-activity' );
 			$link_title_attr = __( 'Lock Activity, do not allow commenting', 'bp-lock-unlock-activity' );
-
-			$url = $url . 'close/' . $activity->id;
-
-			$class .= ' bplua-close-activity';
+			$url             = $url . 'close/' . $activity->id;
+			$class           .= ' bplua-close-activity';
 		}
 
 		$url .= '/';
@@ -369,9 +350,7 @@ class BP_Lock_Unlock_Activity_Helper {
 	 * @return bool
 	 */
 	public static function open( $activity_id ) {
-
 		return bp_activity_delete_meta( $activity_id, 'is_closed', 1 );
-
 	}
 }
 
