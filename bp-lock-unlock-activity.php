@@ -203,13 +203,15 @@ class BP_Lock_Unlock_Activity_Helper {
 			return true;
 		}
 
+		$can_update = false;
+
 		// now check if the activity belongs to logged in user.
 		$activity = new BP_Activity_Activity( $activity_id );
 		if ( get_current_user_id() == $activity->user_id ) {
-			return true;
+			$can_update = true;
 		}
 
-		return false;
+		return apply_filters( 'bp_lock_unlock_user_can_update_activity', $can_update );
 	}
 
 	/**
